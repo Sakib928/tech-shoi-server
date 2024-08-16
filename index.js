@@ -42,12 +42,17 @@ async function run() {
         app.get('/products', async (req, res) => {
             const searchText = req.query.searchText;
             const brand = req.query.brand;
-            const catagory = req.query.catagory;
-            const range = req.query.range;
+            const category = req.query.category;
+            const range = parseInt(req.query.range);
             const sortingMethod = req.query.sortingMethod;
-            console.log(searchText, brand, catagory, range, sortingMethod);
+            console.log(typeof (range));
+            // console.log(searchText, brand, catagory, range, sortingMethod);
 
-            const query = { $productname: { $regex: /searchText/i } }
+            const searchRegex = new RegExp(searchText, "i");
+            const brandRegex = new RegExp(brand, "i");
+            const categoryRegex = new RegExp(category, "i");
+
+            const query = { productname: searchRegex, brand: brandRegex, category: categoryRegex, price: { $gt: range - 1000, $lte: range } };
             const result = await productCollection.find(query).toArray();
             res.send(result);
         })
