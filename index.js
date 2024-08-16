@@ -45,14 +45,26 @@ async function run() {
             const category = req.query.category;
             const range = parseInt(req.query.range);
             const sortingMethod = req.query.sortingMethod;
-            console.log(typeof (range));
+            // console.log(typeof (range));
             // console.log(searchText, brand, catagory, range, sortingMethod);
 
             const searchRegex = new RegExp(searchText, "i");
             const brandRegex = new RegExp(brand, "i");
             const categoryRegex = new RegExp(category, "i");
 
-            const query = { productname: searchRegex, brand: brandRegex, category: categoryRegex, price: { $gt: range - 1000, $lte: range } };
+            const query = {
+                productname: searchRegex, brand: brandRegex, category: categoryRegex,
+            };
+            const result = await productCollection.find(query).toArray();
+            res.send(result);
+        })
+
+        app.get('/price-range', async (req, res) => {
+            const range = parseInt(req.query.range);
+            if (range == 0) {
+                return;
+            }
+            const query = { price: { $gte: range - 1000, $lte: range } }
             const result = await productCollection.find(query).toArray();
             res.send(result);
         })
