@@ -1,4 +1,6 @@
 ## This is a server for the website tech-shoi.
+
+This server is based on express.js and mongodb.
  
  live link of tech-shoi : https://tech-shoi.netlify.app
 
