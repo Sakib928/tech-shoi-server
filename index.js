@@ -32,12 +32,6 @@ async function run() {
 
         const productCollection = client.db('tech-shoi').collection('products');
 
-        app.post('/product', async (req, res) => {
-            const product = req.body;
-            console.log(product);
-            const result = await productCollection.insertOne(product);
-            res.send(result);
-        })
 
         app.get('/products', async (req, res) => {
             const searchText = req.query.searchText;
