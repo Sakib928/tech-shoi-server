@@ -43,7 +43,7 @@ async function run() {
             const searchText = req.query.searchText;
             const brand = req.query.brand;
             const category = req.query.category;
-
+            const page = parseInt(req.query.page);
 
             const searchRegex = new RegExp(searchText, "i");
             const brandRegex = new RegExp(brand, "i");
@@ -52,7 +52,7 @@ async function run() {
             const query = {
                 productname: searchRegex, brand: brandRegex, category: categoryRegex,
             };
-            const result = await productCollection.find(query).toArray();
+            const result = await productCollection.find(query).skip((page - 1) * 6).limit(6).toArray();
             res.send(result);
         })
 
@@ -64,6 +64,11 @@ async function run() {
             const query = { price: { $gte: range - 1000, $lte: range } }
             const result = await productCollection.find(query).toArray();
             res.send(result);
+        })
+
+        app.get('/productsCount', async (req, res) => {
+            const count = await productCollection.estimatedDocumentCount();
+            res.send({ count })
         })
 
         // console.log("Pinged your deployment. You successfully connected to MongoDB!");
