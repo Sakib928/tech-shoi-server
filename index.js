@@ -43,10 +43,7 @@ async function run() {
             const searchText = req.query.searchText;
             const brand = req.query.brand;
             const category = req.query.category;
-            const range = parseInt(req.query.range);
-            const sortingMethod = req.query.sortingMethod;
-            // console.log(typeof (range));
-            // console.log(searchText, brand, catagory, range, sortingMethod);
+
 
             const searchRegex = new RegExp(searchText, "i");
             const brandRegex = new RegExp(brand, "i");
