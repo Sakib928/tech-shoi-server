@@ -7,7 +7,10 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 
 
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5173', 'https://tech-shoi.netlify.app'],
+    credentials: true
+}));
 app.use(express.json());
 
 
